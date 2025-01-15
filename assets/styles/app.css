@@ -1,3 +1,17 @@
-body {
-    background-color: skyblue;
+:root {
+    --background-color: #221F2B;
+    --accent-color: #FBEBAF;
+    --light-text-color: #b7bec9;
+    --disable-text-color: #94989F;
+    --active-text-color: #FCFCFC;
+    --btn-primary-background-color: rgb(0, 133, 95);
+    --btn-primary-hover-background-color: rgb(0, 192, 138);
+    --sidebar-text: rgba(255, 255, 255, .5);
+    --sidebar-text-active: rgba(255, 255, 255, .95);
+    --sidebar-background-active: rgba(0, 0, 0, .2);
+}
+
+.padding-0{
+    padding-right:0;
+    padding-left:0;
 }

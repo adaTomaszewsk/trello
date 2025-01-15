@@ -1,0 +1,35 @@
+{% block javascripts %}
+  <script src="{{ asset('scripts/modal.js') }}"></script>
+{% endblock %}
+
+<div class="modal fade" id="newProjectModal" tabindex="-1" aria-labelledby="newProjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="newProjectModalLabel">Create new project</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="userInputForm">
+                    <div class="mb-2">
+                        <label for="projectName">Enter the project name</label>
+                        <textarea class="form-control" id="projectName" rows="3" placeholder="e.g. My new project 1"></textarea>
+                    </div>
+                   <div id="columnsContainer">
+                      <div class="mb-2" id="column-1">
+                      <label for="columnName-1">Enter the first column name</label>
+                    <input type="text" class="form-control" id="columnName-1" placeholder="e.g. To do" />
+                </div>
+                <button type="button" id="addColumnBtn" class="btn btn-outline-secondary">
+                  <i class="fa fa-plus"></i> Add Column
+                </button>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
