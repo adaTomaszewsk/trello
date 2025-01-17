@@ -26,10 +26,16 @@ class ProjectController extends AbstractController {
     #[Route('/api/projects', name:'api_projects')]
     public function getProjects(): Response
     {
+
+        $uri = $_SERVER['REQUEST_URI'];
+        $parts = explode('/', $uri);
+        if (is_array($parts) && count($parts) > 1) {
+            $id = end($parts);
+        }
         $projects = $this->entityManager->getRepository(Project::class)->findAll();
- 
         return $this->render('components/sidebar_projects_render.html.twig',[
-            'projects' => $projects
+            'projects' => $projects,
+            'current_project_id' => $id,
         ]);
     }
 

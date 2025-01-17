@@ -1,8 +1,5 @@
-{% set current_path = app.request.get('_route') %}
-
-
 {% for project in projects %}
-    <a href="{{ path('project_id', { id: project.id }) }}" class="sidebar-item">
+    <a href="{{ path('project_id', { id: project.id }) }}" class="sidebar-item {% if current_project_id == project.id %}active{% endif %}">
         {{ project.name }}
     </a>
 {% endfor %}
