@@ -2,4 +2,5 @@
 
 {% block body %}
     <p>{{project.name}}</p>
+    {{ render(path('all_columns',  { id: project.id })) }}
 {% endblock %}
