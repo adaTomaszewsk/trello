@@ -7,6 +7,7 @@ use App\Entity\ProjectColumn;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,12 +30,15 @@ class ProjectColumnController extends AbstractController {
     }
 
     #[Route('/add_column', name:'add_column')]
-    public function addColumn(int $id, string $columnName, EntityManagerInterface $entityManager): JsonResponse
+    public function addColumn(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $project = $this->entityManager->getRepository(Project::class)->find($id);
+        $data = json_decode($request->getContent(), true);
+
+        $project = $this->entityManager->getRepository(Project::class)->find($data['projectId']);
         $column = new ProjectColumn();
-        $column->setName($columnName);
+        $column->setName($data['column']);
         $column->setProject($project);
+
     
         $entityManager->persist($column);
         $entityManager->flush();

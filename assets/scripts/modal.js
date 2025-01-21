@@ -64,8 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
             columns: columns
         };
 
-        console.log(projectData);
-
         fetch('/api/create-project', {
             method: 'POST',
             headers: {
