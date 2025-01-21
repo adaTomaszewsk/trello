@@ -13,9 +13,12 @@
                 <div class="title">
                     {{ column.name }}
                 </div>
-                <i class="fa fa-trash"></i>
+                <a href="{{ path('delete_column', { id: column.id }) }}">
+                    <i class="fa fa-trash"></i>
+                </a>
             </div>
         </div>
+
 
     {% endfor %}
     <div class='new-column-container' id='button_add_new_column'>

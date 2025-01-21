@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', function () {
         addNewColumnContainer.classList.add('d-none');
         columnDiv.classList.remove('d-none');
+        console.log('CLick!!!!');
     });
 
     closeButton.addEventListener('click', function () {
@@ -23,7 +24,12 @@ document.addEventListener('DOMContentLoaded', function () {
         addNewColumnContainer.classList.remove('d-none');
         columnDiv.classList.add('d-none');
         const projectId = columnDiv.getAttribute('data-id');
-        const columnInput = document.getElementById('input-column').value;
+        var columnInput = document.getElementById('input-column').value;
+
+        if(!columnInput.trim()){
+            alert('Please provide a column name!');
+            return;
+        }
 
         const data = {
             projectId: projectId,
@@ -54,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error:', error);
                 alert('There was an error creating the project.');
             });
+            
      });
+     
 
 });
