@@ -18,42 +18,42 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(columnDiv.classList);
     });
 
-    // saveButton.addEventListener('click', function () {
-    //     console.log('Save button clicked');
-    //     addNewColumnContainer.classList.remove('d-none');
-    //     columnDiv.classList.add('d-none');
-    //     const projectId = columnDiv.getAttribute('data-id');
-    //     const columnInput = document.getElementById('input-column').value;
+    saveButton.addEventListener('click', function () {
+        console.log('Save button clicked');
+        addNewColumnContainer.classList.remove('d-none');
+        columnDiv.classList.add('d-none');
+        const projectId = columnDiv.getAttribute('data-id');
+        const columnInput = document.getElementById('input-column').value;
 
-    //     const data = {
-    //         projectId: projectId,
-    //         column: columnInput
-    //     };
+        const data = {
+            projectId: projectId,
+            column: columnInput
+        };
 
-    //      console.log(data);
+         console.log(data);
 
-    //     fetch('/add_column', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(data),
-    //     }).then((response) => {
+        fetch('/add_column', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }).then((response) => {
 
-    //         if (!response.ok) {
-    //             throw new Error('Failed to create project.');
-    //         }
+            if (!response.ok) {
+                throw new Error('Failed to create project.');
+            }
 
-    //         return response.json();
+            return response.json();
 
-    //     }).then(data => {
-    //         alert(data.message);
-    //         location.reload();
-    //     })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //             alert('There was an error creating the project.');
-    //         });
-    //  });
+        }).then(data => {
+            alert(data.message);
+            location.reload();
+        })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error creating the project.');
+            });
+     });
 
 });
