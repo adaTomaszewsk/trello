@@ -1,6 +1,47 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('styles/projectColumn.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+  <script src="{{ asset('scripts/column.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <p>{{project.name}}</p>
-    {{ render(path('all_columns',  { id: project.id })) }}
+    <div class="columns-wrapper">
+    {% for column in columns %}
+        <div class="column"  id="column-{{ column.id }}">
+            <div class="section-title">
+                <div class="title">
+                    {{ column.name }}
+                </div>
+                <a href="{{ path('delete_column', { id: column.id }) }}">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>
+        </div>
+
+
+
+    {% endfor %}
+        <div class='new-column-container' id='button_add_new_column'>
+            <div class='d-none' data-id="{{ columns[0].project.id }}" id="columnContainer">
+                <div>
+                    <form method="post" action="{{ path('add_column') }}">
+                        <label for="input-column">Enter list name...</label>
+                        <input type="hidden" name="projectId" value="{{ columns[0].id}}">
+                        <input type="text" name="column" class="form-control" id="input-column" placeholder="e.g. To do" />
+                        <button class="btn btn-primary btn-sm add-column-btn">Add list</button>
+                        <button class="btn btn-secondary btn-sm close-column-btn">X</button>
+                    </form>
+                </div>
+            </div>
+            <div class="add-new-column">
+                    <i class="fa fa-plus"></i> 
+                    Add new column
+            </div>
+        </div>
+    </div>
 {% endblock %}

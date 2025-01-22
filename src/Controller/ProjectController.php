@@ -76,10 +76,47 @@ class ProjectController extends AbstractController {
         $project =  $this->entityManager->getRepository(Project::class)->findOneBy([
             'id'=> $id
         ]);
+        $columns = $entityManager->getRepository(ProjectColumn::class)->findBy(array('project' => $project));
 
         return $this->render('project/index.html.twig', [
             'project' => $project,
+            'columns' => $columns,
         ]);
+    }
+
+
+    #[Route('/add_column', name:'add_column')]
+    public function addColumn(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $data['column'] = $request->get('column');
+        $data['projectId'] = $request->get('projectId');
+    
+        $project = $entityManager->getRepository(Project::class)->find($data['projectId']);
+        if (!$project) {
+            return new JsonResponse(['error' => 'Project not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $column = new ProjectColumn();
+        $column->setName($data['column']);
+        $column->setProject($project);
+    
+        $entityManager->persist($column);
+        $entityManager->flush();
+    
+        return $this->redirectToRoute('project_id', ['id' => $data['projectId']]);
+    }
+
+    #[Route('/columns/{id}/delete', name: 'delete_column')]
+    public function deleteColumn($id, EntityManagerInterface $entityManager): Response
+    {
+        $column = $this->entityManager->getRepository(ProjectColumn::class)->find($id);
+        if (!$column) {
+            return new JsonResponse(['error' => 'Column not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+        $id = $column->getProject()->getId();
+        $entityManager->remove($column);
+        $entityManager->flush();
+        return $this->redirectToRoute('project_id', ['id' => $id]);
     }
 
 }
