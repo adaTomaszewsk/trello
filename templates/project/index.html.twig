@@ -28,15 +28,14 @@
     {% endfor %}
         <div class='new-column-container' id='button_add_new_column'>
             <div class='d-none' data-id="{{ columns[0].project.id }}" id="columnContainer">
-                <div>
-                    <form method="post" action="{{ path('add_column') }}">
-                        <label for="input-column">Enter list name...</label>
-                        <input type="hidden" name="projectId" value="{{ columns[0].id}}">
-                        <input type="text" name="column" class="form-control" id="input-column" placeholder="e.g. To do" />
-                        <button class="btn btn-primary btn-sm add-column-btn">Add list</button>
-                        <button class="btn btn-secondary btn-sm close-column-btn">X</button>
-                    </form>
-                </div>
+                    {{ form_start(form) }}
+                        {{ form_row(form.name) }}
+                        {{ form_widget(form.project) }} 
+                        <div class="d-flex align-items-center gap-2">
+                            {{ form_row(form.save) }}
+                            <button class="btn btn-secondary btn-sm close-column-btn">X</button>
+                         </div>
+                    {{ form_end(form) }}
             </div>
             <div class="add-new-column">
                     <i class="fa fa-plus"></i> 

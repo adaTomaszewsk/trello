@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Project;
 use App\Entity\ProjectColumn;
+use App\Form\ProjectColumnType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,10 +78,16 @@ class ProjectController extends AbstractController {
             'id'=> $id
         ]);
         $columns = $entityManager->getRepository(ProjectColumn::class)->findBy(array('project' => $project));
+        $newColumn = new ProjectColumn();
+        $newColumn->setProject($project);
+        $form = $this->createForm(ProjectColumnType::class, $newColumn, [
+            'action' => $this->generateUrl('add_column'),
+        ]);
 
         return $this->render('project/index.html.twig', [
             'project' => $project,
             'columns' => $columns,
+            'form' => $form,
         ]);
     }
 
@@ -88,22 +95,18 @@ class ProjectController extends AbstractController {
     #[Route('/add_column', name:'add_column')]
     public function addColumn(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $data['column'] = $request->get('column');
-        $data['projectId'] = $request->get('projectId');
-    
-        $project = $entityManager->getRepository(Project::class)->find($data['projectId']);
-        if (!$project) {
-            return new JsonResponse(['error' => 'Project not found'], JsonResponse::HTTP_NOT_FOUND);
-        }
-
         $column = new ProjectColumn();
-        $column->setName($data['column']);
-        $column->setProject($project);
+        $form = $this->createForm(ProjectColumnType::class, $column);
+        $form->handleRequest($request);
+        if ($form->isValid() && $form->isSubmitted()) {
+        
+            $column = $form->getData();
+            $entityManager->persist($column);
+            $entityManager->flush();
+
+             return $this->redirectToRoute('project_id', ['id' => 1]);
+        }
     
-        $entityManager->persist($column);
-        $entityManager->flush();
-    
-        return $this->redirectToRoute('project_id', ['id' => $data['projectId']]);
     }
 
     #[Route('/columns/{id}/delete', name: 'delete_column')]
