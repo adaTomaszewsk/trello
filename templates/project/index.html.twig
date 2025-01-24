@@ -28,14 +28,14 @@
     {% endfor %}
         <div class='new-column-container' id='button_add_new_column'>
             <div class='d-none' data-id="{{ columns[0].project.id }}" id="columnContainer">
-                    {{ form_start(form) }}
-                        {{ form_row(form.name) }}
-                        {{ form_widget(form.project) }} 
-                        <div class="d-flex align-items-center gap-2">
-                            {{ form_row(form.save) }}
-                            <button class="btn btn-secondary btn-sm close-column-btn">X</button>
-                         </div>
-                    {{ form_end(form) }}
+                {{ form_start(form) }}
+                    {{ form_row(form.name) }}
+                    {{ form_widget(form.project) }} 
+                    <div class="d-flex align-items-center gap-2">
+                        {{ form_row(form.save) }}
+                        <button class="btn btn-secondary btn-sm close-column-btn">X</button>
+                        </div>
+                {{ form_end(form) }}
             </div>
             <div class="add-new-column">
                     <i class="fa fa-plus"></i> 
