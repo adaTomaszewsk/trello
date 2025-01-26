@@ -22,7 +22,14 @@
                 </a>
             </div>
             {% for card in projectRepo.getCards(column.id) %}
-                {{ card.title }}
+            <div class="card-container">
+                <div class="card-title">
+                    {{ card.title }}
+                </div>
+                <div class="card-description">
+                    {{ card.description }}
+                </div>
+            </div>
             {% endfor %}
         </div>
     {% endfor %}

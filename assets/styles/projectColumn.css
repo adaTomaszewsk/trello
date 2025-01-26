@@ -49,3 +49,23 @@
     color: rgb(138, 138, 138);
     font-weight: bold;
 }
+
+.columns-wrapper .card-container {
+    background-color: rgb(233, 231, 231);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.columns-wrapper .card-container .card-title{
+    color: rgb(31, 31, 31);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.columns-wrapper .card-container .card-description{
+    color: rgb(61, 61, 61);
+    font-size: 0.8rem;
+}
