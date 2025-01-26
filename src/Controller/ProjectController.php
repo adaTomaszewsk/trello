@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Card;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,22 +10,25 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Project;
 use App\Entity\ProjectColumn;
 use App\Form\ProjectColumnType;
+use App\Repository\CardRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ProjectController extends AbstractController {
+class ProjectController extends AbstractController
+{
     private EntityManagerInterface $entityManager;
     private UserInterface $currentUser;
 
-    public function __construct(EntityManagerInterface $entityManager,  Security $security){
+    public function __construct(EntityManagerInterface $entityManager,  Security $security)
+    {
         $this->entityManager = $entityManager;
         $this->currentUser = $security->getUser();
     }
 
 
-    #[Route('/api/projects', name:'api_projects')]
+    #[Route('/api/projects', name: 'api_projects')]
     public function getProjects(): Response
     {
 
@@ -34,7 +38,7 @@ class ProjectController extends AbstractController {
             $id = end($parts);
         }
         $projects = $this->entityManager->getRepository(Project::class)->findAll();
-        return $this->render('components/sidebar_projects_render.html.twig',[
+        return $this->render('components/sidebar_projects_render.html.twig', [
             'projects' => $projects,
             'current_project_id' => $id,
         ]);
@@ -42,11 +46,11 @@ class ProjectController extends AbstractController {
 
 
     #[Route('api/create-project', name: 'new-project')]
-    public function createProject(Request $request, EntityManagerInterface $entityManager, UserInterface $currentUser): JsonResponse 
+    public function createProject(Request $request, EntityManagerInterface $entityManager, UserInterface $currentUser): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        if(!$data || !isset($data['projectName']) || empty(trim($data['projectName']))) {
+        if (!$data || !isset($data['projectName']) || empty(trim($data['projectName']))) {
             return new JsonResponse(['error' => 'Project name is required'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -63,19 +67,20 @@ class ProjectController extends AbstractController {
             $column = new ProjectColumn();
             $column->setName($columnName);
             $column->setProject($project);
-    
+
             $entityManager->persist($column);
         }
         $entityManager->flush();
 
         return new JsonResponse(['message' => 'Project created successfully', JsonResponse::HTTP_CREATED]);
-
     }
 
     #[Route('project/{id}', name: 'project_id')]
-    public function projectPage(int $id, EntityManagerInterface $entityManager): Response {
-        $project =  $this->entityManager->getRepository(Project::class)->findOneBy([
-            'id'=> $id
+    public function projectPage(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $projectRepo = $this->entityManager->getRepository(ProjectColumn::class);
+        $project = $this->entityManager->getRepository(Project::class)->findOneBy([
+            'id' => $id
         ]);
         $columns = $entityManager->getRepository(ProjectColumn::class)->findBy(array('project' => $project));
         $newColumn = new ProjectColumn();
@@ -88,11 +93,12 @@ class ProjectController extends AbstractController {
             'project' => $project,
             'columns' => $columns,
             'form' => $form,
+            'projectRepo' => $projectRepo,
         ]);
     }
 
 
-    #[Route('/add_column', name:'add_column')]
+    #[Route('/add_column', name: 'add_column')]
     public function addColumn(Request $request, EntityManagerInterface $entityManager): Response
     {
         $column = new ProjectColumn();
@@ -106,7 +112,6 @@ class ProjectController extends AbstractController {
 
              return $this->redirectToRoute('project_id', ['id' => 1]);
         }
-    
     }
 
     #[Route('/columns/{id}/delete', name: 'delete_column')]
@@ -121,5 +126,4 @@ class ProjectController extends AbstractController {
         $entityManager->flush();
         return $this->redirectToRoute('project_id', ['id' => $id]);
     }
-
 }

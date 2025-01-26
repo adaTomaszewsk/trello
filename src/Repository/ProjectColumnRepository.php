@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Card;
 use App\Entity\ProjectColumn;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +16,18 @@ class ProjectColumnRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ProjectColumn::class);
+    }
+
+    public function getCards($id) :array
+    {
+        $em = $this->getEntityManager();
+
+        return $em->getRepository(Card::class)
+            ->createQueryBuilder('c')
+            ->where('c.project_column = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

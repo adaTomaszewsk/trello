@@ -31,7 +31,6 @@ final class AuthController extends AbstractController{
         $form = $this->createFormBuilder($user)
             ->add('email', TextType::class)
             ->add('password', TextType::class)
-            ->add('name', TextType::class)
             ->add('save', SubmitType::class)
             ->getForm();
 
