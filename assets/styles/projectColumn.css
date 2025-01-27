@@ -1,16 +1,17 @@
 .columns-wrapper {
-    display:flex;
+    display: flex;
     max-width: 100%;
     overflow-x: auto;
     padding: 10px;
     box-sizing: border-box;
     gap: 10px; 
+    align-items: flex-start; 
 }
 
 .columns-wrapper .column {
     background-color: rgb(223, 223, 223);
     border-radius: 10px;
-    padding: 20px;
+    padding: 20px 10px;
     text-align: left;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex: 0 0 calc((100% - 40px) / 4); 
@@ -35,7 +36,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex: 0 0 calc((100% - 40px) / 4); 
     min-width: calc((100% - 40px) / 4);
-    box-sizing: border-box;
 }
 
 .columns-wrapper .new-column-container:hover {
@@ -53,6 +53,7 @@
 .columns-wrapper .card-container {
     background-color: rgb(233, 231, 231);
     border-radius: 10px;
+    margin-top: 15px;
     padding: 10px;
     text-align: left;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
