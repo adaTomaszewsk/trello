@@ -31,6 +31,17 @@
                 </div>
             </div>
             {% endfor %}
+            {{ form_start(cardForms[column.id]) }}
+                {{ form_row(cardForms[column.id].title) }}
+                {{ form_row(cardForms[column.id].description) }}
+                {{ form_widget(cardForms[column.id].project_column) }} 
+                <div class="d-flex align-items-center gap-2" style="margin-top: 10px;">
+                    {{ form_row(cardForms[column.id].save) }}
+                    <button class="btn btn-secondary btn-sm close-card-btn">X</button>
+                </div>
+            {{ form_end(cardForms[column.id]) }}
+
+            <button class="btn btn-primary" style="margin-top: 10px;">Add new card</button>
         </div>
     {% endfor %}
 
@@ -39,7 +50,7 @@
                 {{ form_start(form) }}
                     {{ form_row(form.name) }}
                     {{ form_widget(form.project) }} 
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2" style="margin-top: 10px;">
                         {{ form_row(form.save) }}
                         <button class="btn btn-secondary btn-sm close-column-btn">X</button>
                         </div>

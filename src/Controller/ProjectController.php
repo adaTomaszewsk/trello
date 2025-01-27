@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Project;
 use App\Entity\ProjectColumn;
+use App\Form\CardType;
 use App\Form\ProjectColumnType;
 use App\Repository\CardRepository;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -88,12 +89,21 @@ class ProjectController extends AbstractController
         $form = $this->createForm(ProjectColumnType::class, $newColumn, [
             'action' => $this->generateUrl('add_column'),
         ]);
+        $forms = [];
+        foreach ($columns as $column) {
+            $newCard = new Card();
+            $newCard->setProjectColumn($column); 
+            $forms[$column->getId()] = $this->createForm(CardType::class, $newCard, [
+                'action' => $this->generateUrl('add_card'),
+            ])->createView();
+        }
 
         return $this->render('project/index.html.twig', [
             'project' => $project,
             'columns' => $columns,
             'form' => $form,
             'projectRepo' => $projectRepo,
+            'cardForms' => $forms,
         ]);
     }
 
@@ -110,7 +120,7 @@ class ProjectController extends AbstractController
             $entityManager->persist($column);
             $entityManager->flush();
 
-             return $this->redirectToRoute('project_id', ['id' => 1]);
+             return $this->redirectToRoute('project_id', ['id' => $column->project->getId()]);
         }
     }
 
@@ -125,5 +135,23 @@ class ProjectController extends AbstractController
         $entityManager->remove($column);
         $entityManager->flush();
         return $this->redirectToRoute('project_id', ['id' => $id]);
+    }
+
+    #[Route('/add_card', name: 'add_card')]
+    public function addCard(Request $request, EntityManagerInterface $entityManager, UserInterface $currentUser ): Response
+    {
+        $card = new Card();
+        $form = $this->createForm(CardType::class, $card);
+        $form->handleRequest($request);
+        if ($form->isValid() && $form->isSubmitted()) {
+        
+            $card = $form->getData();
+            $card->setCreatedBy($currentUser);
+            $card->setCreatedAt(new \DateTime());
+            $entityManager->persist($card);
+            $entityManager->flush();
+
+             return $this->redirectToRoute('project_id', ['id' => $card->project_column->getProject()->getId()]);
+        }
     }
 }
