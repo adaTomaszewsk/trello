@@ -31,17 +31,34 @@
                 </div>
             </div>
             {% endfor %}
-            {{ form_start(cardForms[column.id]) }}
-                {{ form_row(cardForms[column.id].title) }}
-                {{ form_row(cardForms[column.id].description) }}
-                {{ form_widget(cardForms[column.id].project_column) }} 
-                <div class="d-flex align-items-center gap-2" style="margin-top: 10px;">
-                    {{ form_row(cardForms[column.id].save) }}
-                    <button class="btn btn-secondary btn-sm close-card-btn">X</button>
+            {# <div class="modal fade" id="addCardModal-{{ column.id }}" tabindex="-1" aria-labelledby="addCardModalLabel-{{ column.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addCardModalLabel-{{ column.id }}">Add New Card to {{ column.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ form_start(cardForms[column.id]) }}
+                                {{ form_row(cardForms[column.id].title) }}
+                                {{ form_row(cardForms[column.id].description) }}
+                                {{ form_widget(cardForms[column.id].project_column) }} 
+                                <div class="d-flex align-items-center gap-2" style="margin-top: 10px;">
+                                    {{ form_row(cardForms[column.id].save) }}
+                                    <button class="btn btn-secondary btn-sm close-card-btn">X</button>
+                                </div>
+                            {{ form_end(cardForms[column.id]) }}
+                        </div>
+                    </div>
                 </div>
-            {{ form_end(cardForms[column.id]) }}
-
-            <button class="btn btn-primary" style="margin-top: 10px;">Add new card</button>
+            </div> #}
+             {% include 'components/card_modal.html.twig' with { 
+                'cardForm': cardForms[column.id], 
+                'column': column 
+            } %}
+            <button data-bs-toggle="modal" id="newCardModal" class="btn btn-primary" data-bs-target="#addCardModal-{{ column.id }}" style="margin-top: 10px;">
+                Add new card
+            </button>
         </div>
     {% endfor %}
 

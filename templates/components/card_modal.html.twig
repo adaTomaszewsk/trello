@@ -1,0 +1,21 @@
+<div class="modal fade" id="addCardModal-{{ column.id }}" tabindex="-1" aria-labelledby="addCardModalLabel-{{ column.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCardModalLabel-{{ column.id }}">Add New Card to {{ column.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(cardForm) }}
+                    {{ form_row(cardForm.title) }}
+                    {{ form_row(cardForm.description) }}
+                    {{ form_widget(cardForm.project_column) }} 
+                    <div class="d-flex align-items-center gap-2" style="margin-top: 10px;">
+                        {{ form_row(cardForm.save) }}
+                        <button class="btn btn-secondary btn-sm close-card-btn">X</button>
+                    </div>
+                {{ form_end(cardForm) }}
+            </div>
+        </div>
+    </div>
+</div>

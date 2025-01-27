@@ -151,7 +151,7 @@ class ProjectController extends AbstractController
             $entityManager->persist($card);
             $entityManager->flush();
 
-             return $this->redirectToRoute('project_id', ['id' => $card->project_column->getProject()->getId()]);
+             return $this->redirectToRoute('project_id', ['id' => $card->getProjectColumn()->getProject()->getId()]);
         }
     }
 }
