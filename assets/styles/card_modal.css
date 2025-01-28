@@ -1,0 +1,20 @@
+.modal-body .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.modal-body label {
+    margin-bottom: 0.5rem;
+    font-weight: 600; 
+}
+
+.modal-body input,
+.modal-body textarea,
+.modal-body select {
+    width: 100%; 
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
