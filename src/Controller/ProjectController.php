@@ -16,6 +16,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ProjectController extends AbstractController
 {
@@ -120,7 +121,7 @@ class ProjectController extends AbstractController
             $entityManager->persist($column);
             $entityManager->flush();
 
-             return $this->redirectToRoute('project_id', ['id' => $column->project->getId()]);
+             return $this->redirectToRoute('project_id', ['id' => $column->getProject()->getId()]);
         }
     }
 
@@ -131,6 +132,8 @@ class ProjectController extends AbstractController
         if (!$column) {
             return new JsonResponse(['error' => 'Column not found'], JsonResponse::HTTP_NOT_FOUND);
         }
+        $cardRepository = $entityManager->getRepository(ProjectColumn::class);
+        $cardRepository->deleteCards($id);
         $id = $column->getProject()->getId();
         $entityManager->remove($column);
         $entityManager->flush();
@@ -153,5 +156,18 @@ class ProjectController extends AbstractController
 
              return $this->redirectToRoute('project_id', ['id' => $card->getProjectColumn()->getProject()->getId()]);
         }
+    }
+
+    #[Route('/delete_card/{id}', name: 'delete_card')]
+    public function deleteCard($id, EntityManagerInterface $entityManager): Response
+    {
+        $card = $this->entityManager->getRepository(Card::class)->find($id);
+        if (!$card) {
+            return new JsonResponse(['error' => 'Card not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+        $id = $card->getProjectColumn()->getProject()->getId();
+        $entityManager->remove($card);
+        $entityManager->flush();
+        return $this->redirectToRoute('project_id', ['id' => $id]);
     }
 }

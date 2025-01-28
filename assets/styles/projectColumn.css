@@ -58,12 +58,14 @@
     text-align: left;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .columns-wrapper .card-container .card-title{
     color: rgb(31, 31, 31);
     font-weight: bold;
     font-size: 0.9rem;
+    justify-content: space-between;
 }
 
 .columns-wrapper .card-container .card-description{

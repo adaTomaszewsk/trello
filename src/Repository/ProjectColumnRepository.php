@@ -30,6 +30,19 @@ class ProjectColumnRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function deleteCards($id) :void
+    {
+        $em = $this->getEntityManager();
+
+        $em
+            ->createQueryBuilder()
+            ->delete(Card::class, 'c')
+            ->where('c.project_column = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->execute();
+    }
+
 //    /**
 //     * @return ProjectColumn[] Returns an array of ProjectColumn objects
 //     */
