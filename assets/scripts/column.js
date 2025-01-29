@@ -23,23 +23,5 @@ $( document ).ready(function() {
         console.log(columnDiv.classList);
     });
 
-    saveButton.addEventListener('click', function () {
-        addNewColumnContainer.classList.remove('d-none');
-        columnDiv.classList.add('d-none');
-        const projectId = columnDiv.getAttribute('data-id');
-        var columnInput = document.getElementById('input-column').value;
 
-        if(!columnInput.trim()){
-            alert('Please provide a column name!');
-            return;
-        }
-
-        const data = {
-            projectId: projectId,
-            column: columnInput
-        };
-
-         console.log(data);
-            
-     });
 });

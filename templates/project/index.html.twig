@@ -6,6 +6,7 @@
 
 {% block javascripts %}
   <script src="{{ asset('scripts/column.js') }}"></script>
+  <script src="{{ asset('scripts/card_modal.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -22,7 +23,7 @@
                 </a>
             </div>
             {% for card in projectRepo.getCards(column.id) %}
-            <div class="card-container">
+            <div class="card-container" data-bs-toggle="modal" data-bs-target="#editCardModal">
                 <div class="card-title d-flex gap-2">
                     {{ card.title }}
                     <a href="{{ path('delete_card', { id: card.id }) }}">
@@ -34,16 +35,14 @@
                 </div>
             </div>
             {% endfor %}
-             {% include 'components/card_modal.html.twig' with { 
-                'cardForm': cardForms[column.id], 
-                'column': column 
-            } %}
-            <button data-bs-toggle="modal" id="newCardModal" class="btn btn-primary" data-bs-target="#addCardModal-{{ column.id }}" style="margin-top: 10px;">
+            <button data-bs-toggle="modal" data-column-id="{{ column.id }}" class="btn btn-primary new-card-modal-btn" data-bs-target="#addCardModal" style="margin-top: 10px;">
                 Add new card
             </button>
         </div>
     {% endfor %}
-
+    {% include 'components/card_modal.html.twig' with { 
+        'cardForm': addCardForm,
+    } %}
         <div class='new-column-container' id='button_add_new_column'>
             <div class='d-none' data-id="{{ columns[0].project.id }}" id="columnContainer">
                 {{ form_start(form) }}
