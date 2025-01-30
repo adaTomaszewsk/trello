@@ -91,15 +91,17 @@ class ProjectController extends AbstractController
         ]);
         $newCard = new Card();
         $addCardForm = $this->createForm(CardType::class, $newCard, [
-            'action' => $this->generateUrl('add_card'),
-        ]); 
-    
+            'action' => $this->generateUrl('add_card',),
+        ]);  
+        $editCardForm = $this->createForm(CardType::class, $newCard); 
+
         return $this->render('project/index.html.twig', [
             'project' => $project,
             'columns' => $columns,
             'form' => $form,
             'projectRepo' => $projectRepo,
             'addCardForm' => $addCardForm,
+            'editCardForm' => $editCardForm,
         ]);
     }
 
@@ -153,7 +155,6 @@ class ProjectController extends AbstractController
             $card->setCreatedAt(new \DateTime());
             $entityManager->persist($card);
             $entityManager->flush();
-
         }
         return $this->redirectToRoute('project_id', ['id' => $card->getProjectColumn()->getProject()->getId()]);
     }
@@ -168,6 +169,35 @@ class ProjectController extends AbstractController
         $id = $card->getProjectColumn()->getProject()->getId();
         $entityManager->remove($card);
         $entityManager->flush();
+        return $this->redirectToRoute('project_id', ['id' => $id]);
+    }
+
+    #[Route('/card/edit_card/{id}', name: 'edit_card', methods: ['POST'])]
+    public function editCard(Request $request, $id, EntityManagerInterface $entityManager): Response
+    {
+        $card = $this->entityManager->getRepository(Card::class)->find($id);
+        if (!$card) {
+            return new JsonResponse(['error' => 'Card not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm(CardType::class, $card);
+        $form->handleRequest($request);
+        if ($form->isValid() && $form->isSubmitted()) {
+        
+            $card = $form->getData();
+            $projectColumn = $entityManager->getRepository(ProjectColumn::class)->find($card->getProjectColumn());
+
+            if (!$projectColumn) {
+                throw $this->createNotFoundException('Column not found');
+            }
+            $card->setProjectColumn($projectColumn);
+            $entityManager->persist($card);
+            $entityManager->flush();
+             return $this->redirectToRoute('project_id', ['id' => $card->getProjectColumn()->getProject()->getId()]);
+        }
+
+        $id = $card->getProjectColumn()->getProject()->getId();
+
         return $this->redirectToRoute('project_id', ['id' => $id]);
     }
 }

@@ -1,26 +1,26 @@
 {% block stylesheets %}
     <link href="{{ asset('styles/card_modal.css') }}" rel="stylesheet">
 {% endblock %}
-<div class="modal fade" id= "addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
+<div class="modal fade" id= "editCardModal" tabindex="-1" aria-labelledby="editCardModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addCardModalLabel">Add new card</h5>
+                <h5 class="modal-title" id="editCardModalLabel">Edit new card</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 {{ form_start(cardForm) }}
                     <div class="form-group">
                         {{ form_label(cardForm.title, null, { 'label_attr': { 'class': 'form-label' } }) }}
-                        {{ form_widget(cardForm.title, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_widget(cardForm.title, {'id': 'edit_card_title', 'attr': { 'class': 'form-control' } }) }}
                     </div>
                     <div class="form-group">
                         {{ form_label(cardForm.description, null, { 'label_attr': { 'class': 'form-label' } }) }}
-                        {{ form_widget(cardForm.description, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_widget(cardForm.description, {'id': 'edit_card_description', 'attr': { 'class': 'form-control' } }) }}
                     </div>
-                    {{ form_widget(cardForm.project_column, { 'attr': { 'id': 'project_column' } }) }} 
+                    {{ form_widget(cardForm.project_column, {'id': 'edit_column_id', 'attr': { 'id': 'project_column' } }) }} 
                     <div class="d-flex  gap-2" style="margin-top: 10px;">
-                        {{ form_widget(cardForm.save, { 'attr': { 'class': 'btn btn-primary' } }) }}
+                        {{ form_widget(cardForm.save, {'id': 'edit_card_save', 'attr': { 'class': 'btn btn-primary save-edit-card' } }) }}
                         <button type="button" class="btn btn-secondary btn-sm close-card-btn" data-bs-dismiss="modal">Close</button>
                     </div>
                 {{ form_end(cardForm) }}

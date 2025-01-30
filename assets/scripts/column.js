@@ -1,7 +1,6 @@
 $( document ).ready(function() {
     const button = $('#button_add_new_column');
     const addNewColumnContainer = document.querySelector('.add-new-column');
-    const saveButton = document.querySelector('.add-column-btn');
     const closeButton = document.querySelector('.close-column-btn');
     const columnDiv = document.getElementById('columnContainer');
 
@@ -22,6 +21,4 @@ $( document ).ready(function() {
         columnDiv.classList.add('d-none');
         console.log(columnDiv.classList);
     });
-
-
 });
