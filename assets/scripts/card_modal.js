@@ -23,8 +23,18 @@ $(document).ready(function() {
         $("#edit_card_title").val(title);
         $("#edit_card_description").val(description);
         $("#editCardModal #cardForm_id").val(id);
-        console.log(columnId);
-        form.attr("action", `/card/edit_card/${id}`);
+        $("#addCardModal form").attr("action", "/card/edit_card/${id}");
+        let editModal = new bootstrap.Modal(document.getElementById("addCardModal"));
+        editModal.show();
+    });
+
+    $(".delete-card-btn").on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let deleteUrl = $(this).data("delete-url");
+        $("#confirmDeleteBtn").attr("href", deleteUrl);
+        let confirmModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+        confirmModal.show();
     });
     
 });

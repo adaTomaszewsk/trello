@@ -23,11 +23,11 @@
                 </a>
             </div>
             {% for card in projectRepo.getCards(column.id) %}
-            <div class="card-container" data-bs-toggle="modal" data-card-id="{{ card.id }}" data-card-title="{{ card.title }}" data-card-description="{{ card.description }}" data-column-id="{{ column.id }}" data-bs-target="#editCardModal">
+            <div class="card-container" data-card-title="{{ card.title }}" data-card-description="{{ card.description }}" data-column-id="{{ column.id }}" data-edit-url="{{ path('edit_card', { id: card.id }) }}">
                 <div class="card-title d-flex gap-2">
                     {{ card.title }}
-                    <a href="{{ path('delete_card', { id: card.id }) }}">
-                        <i class="fa-solid fa-x"></i>
+                    <a href="#" class="delete-card-btn" data-card-id="{{ card.id }}" data-delete-url="{{ path('delete_card', { id: card.id }) }}">
+                        <i class="fa-solid fa-x "></i>
                     </a>
                 </div>
                 <div class="card-description">
@@ -46,6 +46,7 @@
     {% include 'components/card_edit_modal.html.twig' with { 
         'cardForm': editCardForm,
     } %}
+    {% include 'components/delete_card_modal.html.twig' %}
         <div class='new-column-container' id='button_add_new_column'>
             <div class='d-none' data-id="{{ columns[0].project.id }}" id="columnContainer">
                 {{ form_start(form) }}
