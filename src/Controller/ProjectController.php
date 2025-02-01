@@ -122,7 +122,7 @@ class ProjectController extends AbstractController
         }
     }
 
-    #[Route('/columns/{id}/delete', name: 'delete_column')]
+    #[Route('/columns/delete/{id}', name: 'delete_column')]
     public function deleteColumn($id, EntityManagerInterface $entityManager): Response
     {
         $column = $this->entityManager->getRepository(ProjectColumn::class)->find($id);

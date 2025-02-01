@@ -21,4 +21,13 @@ $( document ).ready(function() {
         columnDiv.classList.add('d-none');
         console.log(columnDiv.classList);
     });
+
+    $(".delete_column_btn").on("click", function (event) {
+        let deleteUrl = $(this).data("delete-url");
+        console.log(deleteUrl);
+        $("#confirmDeleteBtn").attr("href", deleteUrl);
+        let confirmModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+        confirmModal.show();
+    });
+    
 });
