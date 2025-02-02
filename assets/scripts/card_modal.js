@@ -13,20 +13,24 @@ $(document).ready(function() {
         });
     });
 
-    cardContainer.on("click", function() {
+    $(".card-container").on("click", function() {
         let columnId = $(this).data("column-id");
-        let title = $(this).data("cardTitle");
-        let id = $(this).data("cardId");
-        let description = $(this).data("cardDescription");
+        let title = $(this).data("card-title"); 
+        let id = $(this).data("card-id");
+        let description = $(this).data("card-description"); 
+    
         $("#edit_column_id").val(columnId);
         $("#card_project_column").val(columnId);
         $("#edit_card_title").val(title);
         $("#edit_card_description").val(description);
-        $("#editCardModal #cardForm_id").val(id);
-        $("#addCardModal form").attr("action", "/card/edit_card/${id}");
-        let editModal = new bootstrap.Modal(document.getElementById("addCardModal"));
+        $("#editCardModal form").attr("action", "/card/edit_card/" + id); 
+        
+        console.log("Edytuję kartę o ID:", id);
+    
+        let editModal = new bootstrap.Modal(document.getElementById("editCardModal"));
         editModal.show();
     });
+    
 
     $(".delete-card-btn").on("click", function (e) {
         e.preventDefault();
