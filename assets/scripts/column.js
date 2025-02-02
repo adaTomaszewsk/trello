@@ -26,6 +26,8 @@ $( document ).ready(function() {
         let deleteUrl = $(this).data("delete-url");
         console.log(deleteUrl);
         $("#confirmDeleteBtn").attr("href", deleteUrl);
+        $("#confirmDeleteBodyModal").text("Are you sure you want to delete this column?");
+
         let confirmModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
         confirmModal.show();
     });
