@@ -13,7 +13,7 @@
     <p>{{project.name}}</p>
     <div class="columns-wrapper">
     {% for column in columns %}
-        <div class="column"  id="column-{{ column.id }}">
+        <div class="column" data-column-id="{{ column.id }} id="column-{{ column.id }}">
             <div class="section-title">
                 <div class="title">
                     {{ column.name }}
@@ -22,19 +22,21 @@
                    <i class="fa fa-trash"></i>
                 </a>
             </div>
-            {% for card in projectRepo.getCards(column.id) %}
-            <div class="card-container" data-card-title="{{ card.title }}" data-card-description="{{ card.description }}" data-column-id="{{ column.id }}" data-edit-url="{{ path('edit_card', { id: card.id }) }}">
-                <div class="card-title d-flex gap-2">
-                    {{ card.title }}
-                    <a href="#" class="delete-card-btn" data-card-id="{{ card.id }}" data-delete-url="{{ path('delete_card', { id: card.id }) }}">
-                        <i class="fa-solid fa-x "></i>
-                    </a>
+            <div class="card-list">
+                {% for card in projectRepo.getCards(column.id) %}
+                <div class="card-container" data-card-id="{{ card.id }} data-card-title="{{ card.title }}" data-card-description="{{ card.description }}" data-column-id="{{ column.id }}" data-edit-url="{{ path('edit_card', { id: card.id }) }}">
+                    <div class="card-title d-flex gap-2">
+                        {{ card.title }}
+                        <a href="#" class="delete-card-btn" data-card-id="{{ card.id }}" data-delete-url="{{ path('delete_card', { id: card.id }) }}">
+                            <i class="fa-solid fa-x "></i>
+                        </a>
+                    </div>
+                    <div class="card-description">
+                        {{ card.description }}
+                    </div>
                 </div>
-                <div class="card-description">
-                    {{ card.description }}
-                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
             <button data-bs-toggle="modal" data-column-id="{{ column.id }}" class="btn btn-primary new-card-modal-btn" data-bs-target="#addCardModal" style="margin-top: 10px;">
                 Add new card
             </button>

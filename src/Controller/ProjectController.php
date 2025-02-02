@@ -200,4 +200,22 @@ class ProjectController extends AbstractController
 
         return $this->redirectToRoute('project_id', ['id' => $id]);
     }
+
+    #[Route('/card/move', name:'move-card', methods: ['POST'])]
+    public function move(Request $request, EntityManagerInterface $entityManager): JsonResponse {
+        $cardId = $request->request->get('cardId');
+        $newColumnId = $request->request->get('newColumnId');
+
+        $card = $entityManager->getRepository(Card::class)->find($cardId);
+        $newColumn = $entityManager->getRepository(ProjectColumn::class)->find($newColumnId);
+    
+        if (!$card || !$newColumn) {
+            return new JsonResponse(['error' => 'Karta lub kolumna nie istnieje'], 400);
+        }
+    
+        $card->setProjectColumn($newColumn);
+        $entityManager->flush();
+    
+        return new JsonResponse(['message' => 'Karta przeniesiona!']);
+    }
 }
