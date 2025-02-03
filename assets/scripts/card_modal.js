@@ -24,9 +24,7 @@ $(document).ready(function() {
         $("#edit_card_title").val(title);
         $("#edit_card_description").val(description);
         $("#editCardModal form").attr("action", "/card/edit_card/" + id); 
-        
-        console.log("Edytuję kartę o ID:", id);
-    
+            
         let editModal = new bootstrap.Modal(document.getElementById("editCardModal"));
         editModal.show();
     });
