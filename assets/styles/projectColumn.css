@@ -72,3 +72,12 @@
     color: rgb(61, 61, 61);
     font-size: 0.8rem;
 }
+
+.columns-wrapper .card-container .card-comment-container{
+    justify-content: right; 
+}
+
+.columns-wrapper .card-container .card-comment-container .card-comment{
+    color: rgb(61, 61, 61);
+    font-size: 0.8rem;
+}

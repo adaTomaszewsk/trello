@@ -34,6 +34,10 @@
                     <div class="card-description">
                         {{ card.description }}
                     </div>
+                    <div class="card-comment-container d-flex gap-2 mt-2">
+                        <i class="fa-regular fa-message"></i>
+                        <div class="card-comment"> {{ projectRepo.getMessages(card.id)|length }}</div>
+                    </div>
                 </div>
                 {% endfor %}
             </div>

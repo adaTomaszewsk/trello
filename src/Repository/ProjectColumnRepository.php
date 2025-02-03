@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Card;
+use App\Entity\Comment;
 use App\Entity\ProjectColumn;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -25,6 +26,17 @@ class ProjectColumnRepository extends ServiceEntityRepository
         return $em->getRepository(Card::class)
             ->createQueryBuilder('c')
             ->where('c.project_column = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+    public function getMessages($id) :array
+    {
+        $em = $this->getEntityManager();
+
+        return $em->getRepository(Comment::class)
+            ->createQueryBuilder('c')
+            ->where('c.card = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();

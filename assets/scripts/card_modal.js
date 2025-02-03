@@ -74,7 +74,6 @@ $(document).ready(function() {
                     alert("Błąd podczas przenoszenia karty.");
                 }
             })
-
         }
     });
     
