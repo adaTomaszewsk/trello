@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('styles/card_modal.css') }}" rel="stylesheet">
+    <link href="{{ asset('styles/projectColumn.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block body %}
+<p>Edit card {{card.description }} </p>
+    <div class="card-container">
+        {{ form_start(cardForm) }}
+                {{ form_label(cardForm.title, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                {{ form_widget(cardForm.title, {'id': 'edit_card_title', 'attr': { 'class': 'form-control', 'value': card.title } }) }}
+                {{ form_label(cardForm.description, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                {{ form_widget(cardForm.description, {'value': card.description, 'id': 'edit_card_description','attr': { 'class': 'form-control' }}) }}
+                {{ form_widget(cardForm.project_column, { 'id': 'edit_column_id', 'attr': { 'id': 'project_column' } }) }} 
+                <div class="d-flex  gap-2" style="margin-top: 10px;">
+                    {{ form_widget(cardForm.save, {'id': 'edit_card_save', 'attr': { 'class': 'btn btn-primary save-edit-card' } }) }}
+                <button type="button" class="btn btn-secondary btn-sm close-card-btn" data-bs-dismiss="modal">Close</button>
+            </div>
+        {{ form_end(cardForm) }}
+   
+    </div>
+{% endblock %}

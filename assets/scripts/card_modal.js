@@ -1,8 +1,6 @@
 $(document).ready(function() {
     const createCardBtn = $(".new-card-modal-btn");
-    const cardContainer = $(".card-container");
     const modal = $("#editCardModal");
-    const form = modal.find("form");
 
     createCardBtn.each(function() {
         $(this).on("click", function() {
@@ -12,23 +10,6 @@ $(document).ready(function() {
             $("#card_project_column").val(columnId);
         });
     });
-
-    $(".card-container").on("click", function() {
-        let columnId = $(this).data("column-id");
-        let title = $(this).data("card-title"); 
-        let id = $(this).data("card-id");
-        let description = $(this).data("card-description"); 
-    
-        $("#edit_column_id").val(columnId);
-        $("#card_project_column").val(columnId);
-        $("#edit_card_title").val(title);
-        $("#edit_card_description").val(description);
-        $("#editCardModal form").attr("action", "/card/edit_card/" + id); 
-            
-        let editModal = new bootstrap.Modal(document.getElementById("editCardModal"));
-        editModal.show();
-    });
-    
 
     $(".delete-card-btn").on("click", function (e) {
         e.preventDefault();
