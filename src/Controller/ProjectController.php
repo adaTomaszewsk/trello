@@ -178,11 +178,9 @@ class ProjectController extends AbstractController
             return new JsonResponse(['error' => 'Card not found'], JsonResponse::HTTP_NOT_FOUND);
         }
        
-        $form = $this->createForm(CardType::class, $card); 
         $form = $this->createForm(CardType::class, $card);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() ) {
-        
             $card = $form->getData();
             $projectColumn = $entityManager->getRepository(ProjectColumn::class)->find($card->getProjectColumn());
             if (!$projectColumn) {
