@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('styles/card_modal.css') }}" rel="stylesheet">
+    <link href="{{ asset('styles/projectColumn.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block body %}
+    <p>Edit card {{card.description }} </p>
+    {{ card.title }}
+    {{ card.description }}
+
+    <p> Comments </p>
+        {{ form_start(commentForm) }}
+            {{ form_label(commentForm.text, null, { 'label_attr': { 'class': 'form-label' } }) }}
+             <div class="comments-container d-flex gap-2">
+                <div class="circle">{{ app.user.email|slice(0,1)|upper|raw }}</div>
+                    {{ form_widget(commentForm.text, {'attr': {'id':'mytextarea', 'class': 'form-control' } }) }}
+                </div>
+                {{ form_widget(commentForm.card, { 'id': 'comment_id', 'attr': { 'id': 'card' } }) }} 
+                <div class="d-flex  gap-2" style="margin-top: 10px;">                
+                    {{ form_widget(commentForm.save, {'id': 'comment_save', 'attr': { 'class': 'btn btn-primary' } }) }}
+                    <button type="button" class="btn btn-secondary btn-sm close-card-btn" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        {{ form_end(commentForm) }}
+   
+    </div>
+{% endblock %}

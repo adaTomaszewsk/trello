@@ -24,7 +24,7 @@
             </div>
             <div class="card-list">
                 {% for card in projectRepo.getCards(column.id) %}
-                <a href="/card/edit_card/{{ card.id }}">
+                <a href="/comment/{{ card.id }}">
                     <div class="card-container" data-card-id="{{ card.id }}" data-card-title="{{ card.title }}" data-card-description="{{ card.description }}" data-column-id="{{ column.id }}" data-edit-url="{{ path('edit_card', { id: card.id }) }}">
                         <div class="card-title d-flex gap-2">
                             {{ card.title }}
