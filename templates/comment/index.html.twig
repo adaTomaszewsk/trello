@@ -7,11 +7,14 @@
 {% endblock %}
 
 {% block javascripts %}
+  <script src="{{ asset('scripts/comments.js') }}"></script>
 {% endblock %}
 
 {% block body %}
     <p>Edit card {{card.description }} </p>
+    <p> Title: </p>
     {{ card.title }}
+    <p> Description: </p>
     {{ card.description }}
 
     <p> Comments </p>
@@ -19,13 +22,12 @@
             {{ form_label(commentForm.text, null, { 'label_attr': { 'class': 'form-label' } }) }}
              <div class="comments-container d-flex gap-2">
                 <div class="circle">{{ app.user.email|slice(0,1)|upper|raw }}</div>
-                    {{ form_widget(commentForm.text, {'attr': {'id':'mytextarea', 'class': 'form-control' } }) }}
+                    {{ form_widget(commentForm.text, {'attr': {'id':'mytextarea', 'class': 'form-control', 'required': false } }) }}
                 </div>
                 {{ form_widget(commentForm.card, { 'id': 'comment_id', 'attr': { 'id': 'card' } }) }} 
-                <div class="d-flex  gap-2" style="margin-top: 10px;">                
-                    {{ form_widget(commentForm.save, {'id': 'comment_save', 'attr': { 'class': 'btn btn-primary' } }) }}
-                    <button type="button" class="btn btn-secondary btn-sm close-card-btn" data-bs-dismiss="modal">Close</button>
-
+                <div class="d-flex gap-2" style="margin-top: 20px; margin-left: 45px;">                
+                    {{ form_widget(commentForm.save, {'attr': { 'class': 'btn btn-primary', 'formnovalidate': 'formnovalidate' } }) }}
+                    <button type="button" class="btn btn-secondary btn-sm">Close</button>
                 </div>
             </div>
         {{ form_end(commentForm) }}

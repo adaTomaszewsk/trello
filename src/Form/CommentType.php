@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CommentType extends AbstractType
 {
@@ -17,6 +18,10 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('text', TextareaType::class, [
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Comment cannot be empty.']),
+                     ],
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Write a comment...'
                 ]

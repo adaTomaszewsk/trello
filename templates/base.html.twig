@@ -21,7 +21,12 @@
         <script src="https://cdn.tiny.cloud/1/{{ tinymce }}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <script type="text/javascript">
         tinymce.init({
-            selector: '#comment_text'
+            selector: '#comment_text',
+             setup: function (editor) {
+                editor.on('change', function () {
+                editor.save();
+                });
+            }
         });
         </script>
         </head>

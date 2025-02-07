@@ -27,7 +27,7 @@ class CommentController extends AbstractController
     }
 
     #[Route('comment/{id}', name:'comment')]
-    public function getComments(Request $request, $id, EntityManagerInterface $entityManager): Response
+    public function getComments(Request $request, $id, EntityManagerInterface $entityManager, UserInterface $currentUser): Response
     {
         $card = $this->entityManager->getRepository(Card::class)->find($id);
         if (!$card) {
@@ -35,7 +35,17 @@ class CommentController extends AbstractController
         }
         $comment = new Comment();
         $commentForm = $this->createForm(CommentType::class, $comment); 
+        $commentForm->handleRequest($request);
 
+        if ($commentForm->isSubmitted() && $commentForm->isValid() ) {
+            $comment = $commentForm->getData();
+            $comment->setCard($card);
+            $comment->setCreatedBy($currentUser);
+            $comment->setCreatedAt(new \DateTime());
+            dump($comment);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
 
         return $this->render('comment/index.html.twig', [
             'card' => $card,
