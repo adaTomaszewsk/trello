@@ -36,20 +36,31 @@ class CommentController extends AbstractController
         $comment = new Comment();
         $commentForm = $this->createForm(CommentType::class, $comment); 
         $commentForm->handleRequest($request);
-
+        $comments = $this->entityManager->getRepository(Comment::class)->findAll();
         if ($commentForm->isSubmitted() && $commentForm->isValid() ) {
             $comment = $commentForm->getData();
             $comment->setCard($card);
             $comment->setCreatedBy($currentUser);
             $comment->setCreatedAt(new \DateTime());
-            dump($comment);
             $entityManager->persist($comment);
             $entityManager->flush();
-        }
+
+            unset($comment);
+            unset($commentForm);
+            $comment = new Comment();
+            $commentForm = $this->createForm(CommentType::class, $comment); 
+
+            return $this->render('comment/index.html.twig', [
+                'card' => $card,
+                'commentForm' => $commentForm,
+                'comments' => $comments,
+            ]);
+        } 
 
         return $this->render('comment/index.html.twig', [
             'card' => $card,
             'commentForm' => $commentForm,
+            'comments' => $comments,
         ]);
     }
 

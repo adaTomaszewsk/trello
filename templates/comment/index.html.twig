@@ -17,7 +17,7 @@
     <p> Description: </p>
     {{ card.description }}
 
-    <p> Comments </p>
+    <p>Add new comment </p>
         {{ form_start(commentForm) }}
             {{ form_label(commentForm.text, null, { 'label_attr': { 'class': 'form-label' } }) }}
              <div class="comments-container d-flex gap-2">
@@ -31,6 +31,9 @@
                 </div>
             </div>
         {{ form_end(commentForm) }}
-   
+   <p>Comments:</p>
+   {% for comment in comments %}
+   {{ comment.text }}
+   {% endfor %}
     </div>
 {% endblock %}
