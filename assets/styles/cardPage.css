@@ -1,3 +1,31 @@
 .card-title {
     justify-content: space-between;
 }
+
+.comments-wapper {
+    margin-top: 20px;;
+}
+
+.comments-wapper .circle{
+    margin-top: 10px;
+    background: lightskyblue;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.comment-shadow-text {
+    font-size: 12px;
+    font-weight: normal;
+    color: rgb(124, 124, 124);
+}
+
+.comment-name-area {
+    display: flex;
+    align-items: center;
+}

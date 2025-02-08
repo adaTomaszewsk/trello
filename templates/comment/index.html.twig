@@ -3,6 +3,8 @@
 {% block stylesheets %}
     <link href="{{ asset('styles/cardPage.css') }}" rel="stylesheet">
     <link href="{{ asset('styles/projectColumn.css') }}" rel="stylesheet">
+    <link href="{{ asset('styles/card_modal.css') }}" rel="stylesheet">
+
 
 {% endblock %}
 
@@ -20,19 +22,16 @@
 
 {% block body %}
     <div class="card-title d-flex gap-2">
-        <p>Edit card {{card.description }} </p>
+        <h1> {{ card.title }} </h1>
         <a href="/card/edit_card/{{ card.id }}">
             <i class="fa-regular fa-pen-to-square"></i>
         </a>
     </div>
-    <p> Title: </p>
-    {{ card.title }}
-    <p> Description: </p>
+    <span> Description: </span>
     {{ card.description }}
 
-    <p>Add new comment </p>
+    <h2 style="margin-top: 20px;">Add new comment </h2>
         {{ form_start(commentForm) }}
-            {{ form_label(commentForm.text, null, { 'label_attr': { 'class': 'form-label' } }) }}
              <div class="comments-container d-flex gap-2">
                 <div class="circle">{{ app.user.email|slice(0,1)|upper|raw }}</div>
                     {{ form_widget(commentForm.text, {'attr': {'id':'mytextarea', 'class': 'form-control', 'required': false } }) }}
@@ -42,11 +41,24 @@
                     {{ form_widget(commentForm.save, {'attr': { 'class': 'btn btn-primary', 'formnovalidate': 'formnovalidate' } }) }}
                     <button type="button" class="btn btn-secondary btn-sm">Close</button>
                 </div>
-            </div>
         {{ form_end(commentForm) }}
-   <p>{{ message }}</p>
-   {% for comment in comments %}
-   {{ comment.text|raw }}
-   {% endfor %}
-    </div>
+        <div class="comments-wapper">
+            <h2>{{ message }}</h2>
+            {% for comment in comments %}
+            <div class="d-flex gap-2 comment-name-area ">
+                <div class="circle">{{ app.user.email|slice(0,1)|upper|raw }}</div>
+                <span class="comment-shadow-text">{{ comment.createdBy.email|raw }}</span>
+            </div>
+                <p>{{ comment.text|raw }}</p>
+                <div class="d-flex gap-2">
+                    <span  class="comment-shadow-text">{{ comment.createdAt|date('d-m-Y, h:s') }}</span>
+                    {% if comment.createdBy.id == app.user.id %}
+                        <i class="fa-regular fa-pen-to-square"></i>    
+                        <i class="fa-solid fa-trash"></i>   
+                        
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+      </div>
 {% endblock %}
