@@ -29,6 +29,7 @@ class CommentController extends AbstractController
     #[Route('comment/{id}', name:'comment')]
     public function getComments(Request $request, $id, EntityManagerInterface $entityManager, UserInterface $currentUser): Response
     {
+        $comments = [];
         $card = $this->entityManager->getRepository(Card::class)->find($id);
         if (!$card) {
             return new JsonResponse(['error' => 'Card not found'], JsonResponse::HTTP_NOT_FOUND);
@@ -36,7 +37,7 @@ class CommentController extends AbstractController
         $comment = new Comment();
         $commentForm = $this->createForm(CommentType::class, $comment); 
         $commentForm->handleRequest($request);
-        $comments = $this->entityManager->getRepository(Comment::class)->findAll();
+        $comments = $this->entityManager->getRepository(Comment::class)->findBy((array('card' => $card)));
         if ($commentForm->isSubmitted() && $commentForm->isValid() ) {
             $comment = $commentForm->getData();
             $comment->setCard($card);

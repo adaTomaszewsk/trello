@@ -22,12 +22,6 @@
                     {{ form_widget(cardForm.save, {'id': 'edit_card_save', 'attr': { 'class': 'btn btn-primary save-edit-card' } }) }}
                 <button type="button" class="btn btn-secondary btn-sm close-card-btn" data-bs-dismiss="modal">Close</button>
             </div>
-        {{ form_end(cardForm) }}
-        <p> Comments </p>
-        <div class="comments-container d-flex gap-2">
-            <div class="circle">{{ app.user.email|slice(0,1)|upper|raw }}</div>
-            <textarea id="mytextarea" placeholder="Write a comment..."></textarea>
-        </div>
-   
+        {{ form_end(cardForm) }}   
     </div>
 {% endblock %}

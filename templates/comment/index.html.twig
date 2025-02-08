@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link href="{{ asset('styles/card_modal.css') }}" rel="stylesheet">
+    <link href="{{ asset('styles/cardPage.css') }}" rel="stylesheet">
     <link href="{{ asset('styles/projectColumn.css') }}" rel="stylesheet">
 
 {% endblock %}
@@ -10,8 +10,21 @@
   <script src="{{ asset('scripts/comments.js') }}"></script>
 {% endblock %}
 
+{% if  comments|length == 0 %}
+    {% set message = '' %}
+{% elseif comments|length == 1 %}
+    {% set message = 'Comment' %}
+{% else %}
+    {% set message = 'Comments' %}
+{% endif %}
+
 {% block body %}
-    <p>Edit card {{card.description }} </p>
+    <div class="card-title d-flex gap-2">
+        <p>Edit card {{card.description }} </p>
+        <a href="/card/edit_card/{{ card.id }}">
+            <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+    </div>
     <p> Title: </p>
     {{ card.title }}
     <p> Description: </p>
@@ -31,9 +44,9 @@
                 </div>
             </div>
         {{ form_end(commentForm) }}
-   <p>Comments:</p>
+   <p>{{ message }}</p>
    {% for comment in comments %}
-   {{ comment.text }}
+   {{ comment.text|raw }}
    {% endfor %}
     </div>
 {% endblock %}
