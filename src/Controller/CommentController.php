@@ -65,4 +65,18 @@ class CommentController extends AbstractController
         ]);
     }
 
+#[Route('/comment/delete/{id}', name:"comment_delete")]
+public function deleteComment($id, EntityManagerInterface $entityManager): Response {
+
+    $comment = $this->entityManager->getRepository(Comment::class)->find($id);
+    if (!$comment) {
+        return new JsonResponse(['error' => 'Comment not found'], JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    $id = $comment->getCard()->getId();
+    $entityManager->remove($comment);
+    $entityManager->flush();
+    return $this->redirectToRoute('comment', ['id' => $id]);
+}
+
 }

@@ -158,7 +158,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/card/delete_card/{id}', name: 'delete_card')]
-    public function deleteCard(Request $request, $id, EntityManagerInterface $entityManager): Response
+    public function deleteCard($id, EntityManagerInterface $entityManager): Response
     {
         $card = $this->entityManager->getRepository(Card::class)->find($id);
         if (!$card) {
@@ -189,7 +189,7 @@ class ProjectController extends AbstractController
             $card->setProjectColumn($projectColumn);
             $entityManager->persist($card);
             $entityManager->flush();
-            return $this->redirectToRoute('project_id', ['id' =>        $card->getProjectColumn()->getProject()->getId()]);
+            return $this->redirectToRoute('project_id', ['id' => $card->getProjectColumn()->getProject()->getId()]);
         }
 
         $id = $card->getProjectColumn()->getProject()->getId();
