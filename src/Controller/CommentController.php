@@ -79,4 +79,20 @@ public function deleteComment($id, EntityManagerInterface $entityManager): Respo
     return $this->redirectToRoute('comment', ['id' => $id]);
 }
 
+#[Route('/comment/edit/{id}', name: 'edit_comment')]
+public function editComment($id,  Comment $comment, Request $request, EntityManagerInterface $entityManager): Response {
+    if ($comment->getCreatedBy() !== $this->getUser()) {
+        throw $this->createAccessDeniedException('Nie masz uprawnień do edycji tego komentarza.');
+    }
+
+    $newText = $request->request->get('edit-mytextarea');
+    if (!$newText) {
+        throw new \Exception('Brak wartości newText w request!');
+    }
+    $comment->setText($newText);
+
+    $entityManager->persist($comment);
+    $entityManager->flush();
+    return $this->redirectToRoute('comment', ['id' => $id]);
+    }
 }

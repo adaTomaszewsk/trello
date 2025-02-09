@@ -51,9 +51,10 @@
             </div>
                 <p>{{ comment.text|raw }}</p>
                 <div class="d-flex gap-2">
-                    <span  class="comment-shadow-text">{{ comment.createdAt|date('d-m-Y, h:s:sA"') }}</span>
+                    <span  class="comment-shadow-text">{{ comment.createdAt|date('d-m-Y, h:m:sA"') }}</span>
                     {% if comment.createdBy.id == app.user.id %}
-                        <i class="fa-regular fa-pen-to-square"></i>
+                        <i data-comment-id="{{ comment.id }}" data-card-id="{{ card.id }}" class="comment-edit fa-regular fa-pen-to-square"
+                        data-comment-text="{{ comment.text|e }}"></i>
                         <a href='/comment/delete/{{comment.id}}'>
                             <i class="fa-solid fa-trash"></i>
                         </a>
@@ -62,4 +63,5 @@
             {% endfor %}
         </div>
       </div>
+       {% include 'comment/modal-edit-comment.html.twig' %}
 {% endblock %}
