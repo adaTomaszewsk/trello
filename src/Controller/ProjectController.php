@@ -11,6 +11,8 @@ use App\Entity\Project;
 use App\Entity\ProjectColumn;
 use App\Form\CardType;
 use App\Form\ProjectColumnType;
+use App\Repository\ProjectRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -216,5 +218,36 @@ class ProjectController extends AbstractController
         $entityManager->flush();
     
         return new JsonResponse(['message' => 'Karta przeniesiona!']);
+    } 
+
+    #[Route('/add-user-to-project', name: 'add_user_to_project')]
+    public function addUserToProject(Request $request, UserRepository $userRepository, ProjectRepository $projectRepository, EntityManagerInterface $entityManager): JsonResponse 
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $email = $data['email'] ?? null;
+        $projectId = $data['projectId'] ?? null;
+
+        if (!$email || !$projectId) {
+            return new JsonResponse(['message' => 'Brak danych'], 400);
+        }
+
+        $user = $userRepository->findOneBy(['email' => $email]);
+        $project = $projectRepository->find($projectId);
+
+        if (!$user || !$project) {
+            return new JsonResponse(['message' => 'Nie znaleziono użytkownika lub projektu'], 404);
+        }
+
+        if ($project->getContributors()->contains($user)) {
+            return new JsonResponse(['message' => 'Użytkownik już jest w tym projekcie'], 400);
+        }
+
+        $project->addContributor($user);
+        $entityManager->persist($project);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Użytkownik dodany do projektu!'], 200);
     }
+
 }

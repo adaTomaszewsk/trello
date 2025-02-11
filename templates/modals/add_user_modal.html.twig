@@ -1,0 +1,18 @@
+<div class="modal fade" id="addUsersModal" tabindex="-1" aria-labelledby="addUsersModallLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Search a user</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <input type="hidden" id="project-id" value="{{ project.id }}">
+        <input type="text" id="user-search" class="form-control" placeholder="Wpisz e-mail użytkownika...">
+        <div id="search-results" class="search-results"></div>
+        
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
