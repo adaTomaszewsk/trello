@@ -11,6 +11,7 @@ use App\Entity\Project;
 use App\Entity\ProjectColumn;
 use App\Form\CardType;
 use App\Form\ProjectColumnType;
+use App\Repository\ProjectColumnRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -92,8 +93,8 @@ class ProjectController extends AbstractController
         $newCard = new Card();
         $addCardForm = $this->createForm(CardType::class, $newCard, [
             'action' => $this->generateUrl('add_card',),
-        ]);  
-        $editCardForm = $this->createForm(CardType::class, $newCard); 
+        ]);
+        $editCardForm = $this->createForm(CardType::class, $newCard);
 
         return $this->render('project/index.html.twig', [
             'project' => $project,
@@ -110,24 +111,24 @@ class ProjectController extends AbstractController
     public function addColumn(Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
         $column = new ProjectColumn();
-        
+
         $form = $this->createForm(ProjectColumnType::class, $column);
         $form->handleRequest($request);
 
-        $projectId = $request->request->get('project_id'); 
+        $projectId = $request->request->get('project_id');
         $project = $projectRepository->find($projectId);
 
-    if (!$project) {
-        throw $this->createNotFoundException('Projekt nie istnieje');
-    }
+        if (!$project) {
+            throw $this->createNotFoundException('Projekt nie istnieje');
+        }
         if ($form->isValid() && $form->isSubmitted()) {
             $column->setProject($project);
             $column = $form->getData();
-           
+
             $entityManager->persist($column);
             $entityManager->flush();
 
-             return $this->redirectToRoute('project_id', ['id' => $column->getProject()->getId()]);
+            return $this->redirectToRoute('project_id', ['id' => $column->getProject()->getId()]);
         }
     }
 
@@ -147,7 +148,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/card/add_card', name: 'add_card')]
-    public function addCard(Request $request, EntityManagerInterface $entityManager, UserInterface $currentUser ): Response
+    public function addCard(Request $request, EntityManagerInterface $entityManager, UserInterface $currentUser): Response
     {
         $card = new Card();
         $form = $this->createForm(CardType::class, $card);
@@ -188,10 +189,10 @@ class ProjectController extends AbstractController
         if (!$card) {
             return new JsonResponse(['error' => 'Card not found'], JsonResponse::HTTP_NOT_FOUND);
         }
-       
+
         $form = $this->createForm(CardType::class, $card);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $card = $form->getData();
             $projectColumn = $entityManager->getRepository(ProjectColumn::class)->find($card->getProjectColumn());
             if (!$projectColumn) {
@@ -204,33 +205,33 @@ class ProjectController extends AbstractController
         }
 
         $id = $card->getProjectColumn()->getProject()->getId();
-        return $this->render('project/card-edit.html.twig',[
+        return $this->render('project/card-edit.html.twig', [
             'cardForm' => $form,
             'card' => $card,
         ]);
-
     }
 
-    #[Route('/card/move', name:'move-card', methods: ['POST'])]
-    public function move(Request $request, EntityManagerInterface $entityManager): JsonResponse {
+    #[Route('/card/move', name: 'move-card', methods: ['POST'])]
+    public function move(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
         $cardId = $request->request->get('cardId');
         $newColumnId = $request->request->get('newColumnId');
 
         $card = $entityManager->getRepository(Card::class)->find($cardId);
         $newColumn = $entityManager->getRepository(ProjectColumn::class)->find($newColumnId);
-    
+
         if (!$card || !$newColumn) {
             return new JsonResponse(['error' => 'Karta lub kolumna nie istnieje'], 400);
         }
-    
+
         $card->setProjectColumn($newColumn);
         $entityManager->flush();
-    
+
         return new JsonResponse(['message' => 'Karta przeniesiona!']);
-    } 
+    }
 
     #[Route('/add-user-to-project', name: 'add_user_to_project')]
-    public function addUserToProject(Request $request, UserRepository $userRepository, ProjectRepository $projectRepository, EntityManagerInterface $entityManager): JsonResponse 
+    public function addUserToProject(Request $request, UserRepository $userRepository, ProjectRepository $projectRepository, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -259,4 +260,24 @@ class ProjectController extends AbstractController
         return new JsonResponse(['message' => 'Użytkownik dodany do projektu!'], 200);
     }
 
+    #[Route('project/delete/{id}', name: 'delete_project')]
+    public function deleteProject($id, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, ProjectColumnRepository $pCRepository): Response
+     {
+        $project = $this->entityManager->getRepository(Project::class)->find($id);
+        if (!$project) {
+            return new JsonResponse(['error' => 'Project not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+        $columns = $projectRepository->getProjectColumns($id);
+       
+        foreach ($columns as $column) {
+            $cardRepository = $entityManager->getRepository(ProjectColumn::class);
+           
+        $cardRepository->deleteCards($column);
+            $entityManager->remove($column);
+        }
+    
+        $entityManager->remove($project);
+        $entityManager->flush();
+        return $this->redirectToRoute('home');
+    }
 }
