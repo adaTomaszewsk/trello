@@ -272,7 +272,7 @@ class ProjectController extends AbstractController
         foreach ($columns as $column) {
             $cardRepository = $entityManager->getRepository(ProjectColumn::class);
            
-        $cardRepository->deleteCards($column);
+            $cardRepository->deleteCards($column);
             $entityManager->remove($column);
         }
     
