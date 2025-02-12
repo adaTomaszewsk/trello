@@ -14,15 +14,19 @@
 {% block body %}
     <div class = 'd-flex gap-2 title-container'>
         <p>{{project.name}}</p>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                More...
-            </button>
-            <ul class="dropdown-menu">
-                <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addUsersModal">Add users</button></li>
-                <li><button class="dropdown-item" type="button">Edit project</button></li>
-                <li><button class="dropdown-item" type="button">Delete project</button></li>
-            </ul>
+        <div class="d-flex align-items-center gap-2">
+            <i class="fa-regular fa-user"></i>
+            {{ project.contributors|length + 1}}
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    More...
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addUsersModal">Add users</button></li>
+                    <li><button class="dropdown-item" type="button">Edit project</button></li>
+                    <li><button class="dropdown-item" type="button">Delete project</button></li>
+                </ul>
+                </div>
             </div>
         </div>
     <div class="columns-wrapper">
