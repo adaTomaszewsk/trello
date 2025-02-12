@@ -75,9 +75,10 @@
     {% include 'modals/add_user_modal.html.twig' %}
     {% include 'components/delete_card_modal.html.twig' %}
 
-        <div class='new-column-container' id='button_add_new_column'>
-            <div class='d-none' data-id="{{ columns[0].project.id }}" id="columnContainer">
+        <div class='new-column-container' id='button_add_new_column' data-project-id="{{ project.id }}">
+            <div class='d-none' data-id="{{ columns[0].project.id }}" id="columnContainer" >
                 {{ form_start(form) }}
+                    <input type="hidden" name="project_id" value="{{ project.id }}">
                     {{ form_row(form.name) }}
                     {{ form_widget(form.project) }} 
                     <div class="d-flex align-items-center gap-2" style="margin-top: 10px;">

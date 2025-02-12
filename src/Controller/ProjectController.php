@@ -107,14 +107,23 @@ class ProjectController extends AbstractController
 
 
     #[Route('/add_column', name: 'add_column')]
-    public function addColumn(Request $request, EntityManagerInterface $entityManager): Response
+    public function addColumn(Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
     {
         $column = new ProjectColumn();
+        
         $form = $this->createForm(ProjectColumnType::class, $column);
         $form->handleRequest($request);
+
+        $projectId = $request->request->get('project_id'); 
+        $project = $projectRepository->find($projectId);
+
+    if (!$project) {
+        throw $this->createNotFoundException('Projekt nie istnieje');
+    }
         if ($form->isValid() && $form->isSubmitted()) {
-        
+            $column->setProject($project);
             $column = $form->getData();
+           
             $entityManager->persist($column);
             $entityManager->flush();
 

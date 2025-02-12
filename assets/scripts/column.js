@@ -3,14 +3,15 @@ $( document ).ready(function() {
     const addNewColumnContainer = document.querySelector('.add-new-column');
     const closeButton = document.querySelector('.close-column-btn');
     const columnDiv = document.getElementById('columnContainer');
+    const projectIdField = document.getElementById('project-id');
 
-    console.log('dump');
-    console.log(button);
 
     button.on('click', function (event) {
+        const projectId = $(this).data('project-id');
+        projectIdField.value = projectId; 
+        console.log(projectId);
         addNewColumnContainer.classList.add('d-none');
         columnDiv.classList.remove('d-none');
-        console.log('CLick!!!!');
     });
 
     closeButton.addEventListener('click', function (event) {
