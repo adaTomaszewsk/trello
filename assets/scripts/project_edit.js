@@ -20,7 +20,6 @@ $(document).ready(function(){
         $(".title-wrapper").addClass('d-none');
         $(".title-edit-container").removeClass('d-none');
         changedTitle = input.val();
-        console.log(changedTitle);
 
 
         fetch(`/project/update_title/${projectId}`, {

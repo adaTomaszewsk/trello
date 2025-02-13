@@ -15,10 +15,8 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.comment-edit', function() {
-        console.log('comment-edit');
         let commentId = $(this).data('comment-id');
         let commentText = $(this).data('comment-text');
-        console.log(commentId);
         tinyMCE.get('edit-mytextarea').setContent(commentText);
         $('#edit-comment-id').val(commentId);
         
@@ -36,14 +34,12 @@ $(document).ready(function() {
         let newText = $('#edit-mytextarea').val();
         tinyMCE.triggerSave(); 
     
-        console.log(newText);
         if (!newText) {
             alert('Komentarz nie może być pusty!');
             return;
         }
     
         let commentId = $('#edit-comment-id').val();  
-        console.log(commentId);  
         $.ajax({
             url: '/comment/edit/' + commentId,  
             method: 'POST',
@@ -51,7 +47,6 @@ $(document).ready(function() {
                 'edit-mytextarea': newText
             },
             success: function(response) {
-                console.log(response);
                 alert('Komentarz został zaktualizowany!');
                 $('#edit-comment-modal').fadeOut();
             },

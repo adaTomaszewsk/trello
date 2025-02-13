@@ -9,23 +9,18 @@ $( document ).ready(function() {
     button.on('click', function (event) {
         const projectId = $(this).data('project-id');
         projectIdField.value = projectId; 
-        console.log(projectId);
         addNewColumnContainer.classList.add('d-none');
         columnDiv.classList.remove('d-none');
     });
 
     closeButton.addEventListener('click', function (event) {
         event.stopPropagation(); 
-        console.log('Close button clicked');
-        console.log(columnDiv);
         addNewColumnContainer.classList.remove('d-none');
         columnDiv.classList.add('d-none');
-        console.log(columnDiv.classList);
     });
 
     $(".delete_column_btn").on("click", function (event) {
         let deleteUrl = $(this).data("delete-url");
-        console.log(deleteUrl);
         $("#confirmDeleteBtn").attr("href", deleteUrl);
         $("#confirmDeleteBodyModal").text("Are you sure you want to delete this column?");
 
