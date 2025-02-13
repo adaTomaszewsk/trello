@@ -24,7 +24,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addUsersModal">Add users</button></li>
-                    <li><button class="dropdown-item" type="button">Edit project</button></li>
+                    <li><a href="/project/edit/{{ project.id }}" class="dropdown-item" type="button">Edit project</button></li>
                     <li><button id="delete_project_btn" data-delete-url="{{ path('delete_project', { id: project.id }) }}" class="dropdown-item" type="button">Delete project</button></li>
                 </ul>
                 </div>

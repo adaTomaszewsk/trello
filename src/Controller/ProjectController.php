@@ -280,4 +280,35 @@ class ProjectController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('home');
     }
+
+    #[Route('/project/edit/{id}', name: 'edit_project')]
+    public function editProject($id, EntityManagerInterface $entityManager) : Response {
+        $project = $this->entityManager->getRepository(Project::class)->find($id);
+
+        return $this->render('project/edit.html.twig', [
+            'project' => $project,
+        ]);
+    }
+
+    #[Route('/project/update_title/{id}', name: 'update_project_title', methods:['POST', 'GET'])]
+    public function updateTitle(Request $request, $id, EntityManagerInterface $entityManager): JsonResponse 
+    {
+        $project = $entityManager->getRepository(Project::class)->find($id);
+    
+        if (!$project) {
+            return new JsonResponse(['error' => 'Project not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+    
+        $data = json_decode($request->getContent(), true);
+        $newTitle = $data['newTitle'] ?? null;
+      
+        if (!$newTitle) {
+            return new JsonResponse(['error' => 'New project title not provided'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+    
+        $project->setName($newTitle);
+        $entityManager->flush();
+    
+        return new JsonResponse(['message' => 'Project title updated successfully']);
+    }
 }
