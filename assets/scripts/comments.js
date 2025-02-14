@@ -47,7 +47,6 @@ $(document).ready(function() {
                 'edit-mytextarea': newText
             },
             success: function(response) {
-                console.log(response);
                 alert('Komentarz został zaktualizowany!');
                 $('#edit-comment-modal').fadeOut();
             },

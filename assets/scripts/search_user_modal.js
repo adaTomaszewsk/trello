@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
                  alert("Wybierz użytkownika przed zapisaniem!");
             return;
         }
-        
         fetch("/add-user-to-project", {
             method: "POST",
             headers: {

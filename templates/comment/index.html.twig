@@ -39,19 +39,18 @@
                 {{ form_widget(commentForm.card, { 'id': 'comment_id', 'attr': { 'id': 'card' } }) }} 
                 <div class="d-flex gap-2" style="margin-top: 20px; margin-left: 45px;">                
                     {{ form_widget(commentForm.save, {'attr': { 'class': 'btn btn-primary', 'formnovalidate': 'formnovalidate' } }) }}
-                    <button type="button" class="btn btn-secondary btn-sm">Close</button>
                 </div>
         {{ form_end(commentForm) }}
         <div class="comments-wapper">
             <h2>{{ message }}</h2>
             {% for comment in comments %}
-            <div class="d-flex gap-2 comment-name-area ">
+            <div class="d-flex gap-2 comment-name-area">
                 <div class="circle">{{ app.user.email|slice(0,1)|upper|raw }}</div>
                 <span class="comment-shadow-text">{{ comment.createdBy.email|raw }}</span>
             </div>
                 <p>{{ comment.text|raw }}</p>
                 <div class="d-flex gap-2">
-                    <span  class="comment-shadow-text">{{ comment.createdAt|date('d-m-Y, h:m:sA"') }}</span>
+                    <span  class="comment-shadow-text">{{ comment.createdAt|date('d-m-Y, h:m:sA') }}</span>
                     {% if comment.createdBy.id == app.user.id %}
                         <i data-comment-id="{{ comment.id }}" data-card-id="{{ card.id }}" class="comment-edit fa-regular fa-pen-to-square"
                         data-comment-text="{{ comment.text|e }}"></i>

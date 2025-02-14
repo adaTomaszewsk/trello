@@ -12,7 +12,6 @@ use App\Entity\ProjectColumn;
 use App\Entity\User;
 use App\Form\CardType;
 use App\Form\ProjectColumnType;
-use App\Repository\ProjectColumnRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\SecurityBundle\Security;
