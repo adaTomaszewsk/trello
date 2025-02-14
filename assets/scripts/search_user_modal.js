@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
                  alert("Wybierz użytkownika przed zapisaniem!");
             return;
         }
-        console.log(projectId);
+        
         fetch("/add-user-to-project", {
             method: "POST",
             headers: {
@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
             searchInput.value = "";
             resultsContainer.innerHTML = "";
             resultsContainer.style.display = "none";
+            window.location.reload();
         })
         .catch(error => console.error("Błąd dodawania użytkownika:", error));
     };

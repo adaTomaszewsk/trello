@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Project;
 use App\Entity\ProjectColumn;
+use App\Entity\User;
 use App\Form\CardType;
 use App\Form\ProjectColumnType;
 use App\Repository\ProjectColumnRepository;
@@ -261,7 +262,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('project/delete/{id}', name: 'delete_project')]
-    public function deleteProject($id, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, ProjectColumnRepository $pCRepository): Response
+    public function deleteProject($id, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
      {
         $project = $this->entityManager->getRepository(Project::class)->find($id);
         if (!$project) {
@@ -310,5 +311,31 @@ class ProjectController extends AbstractController
         $entityManager->flush();
     
         return new JsonResponse(['message' => 'Project title updated successfully']);
+    }
+
+    #[Route('/project/delete_contributor/{projectId}/{id}', name:'delete_contributor_project')]
+    public function deleteContributorProject($projectId, $id, EntityManagerInterface $entityManager,): Response {
+
+        $project = $this->entityManager->getRepository(Project::class)->find($projectId);
+        $contributor = $this->entityManager->getRepository(User::class)->find($id);
+        if (!$project) {
+            return new JsonResponse(['error' => 'Project not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+    
+        if (!$contributor) {
+            return new JsonResponse(['error' => 'Contributor not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+    
+        if (!$project->getContributors()->contains($contributor)) {
+            return new JsonResponse(['error' => 'User is not a contributor'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+        $project->removeContributor($contributor);
+        $entityManager->persist($project);
+        $entityManager->flush();
+
+
+        return $this->render('project/edit.html.twig', [
+            'project' => $project,
+        ]);
     }
 }

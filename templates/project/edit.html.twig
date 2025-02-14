@@ -24,21 +24,23 @@
         </div>
     </div>
 
-
+  {% include 'components/delete_card_modal.html.twig' %}
 <div class="contributors-wrapper mt-4">
 	<h2>Contributors</h2>
     <input type="text" id="user-search" class="form-control" placeholder="Wpisz e-mail użytkownika...">
         <div id="search-results" class="search-results"></div>
         <input type="hidden" id="project-id" value="{{ project.id }}">
-        <div class="mt-2 gap-2">
+        <div class="mt-2 gap-2 mb-4">
             <button id="contributorSave" type="button" class="btn btn-primary">Save changes</button>
             <button type="button" class=" btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
     {% for contributor in project.contributors %}
 		<div class="d-flex gap-2">
 			<p>{{ contributor.email }}</p>
-			<i class="fa-solid fa-x" style=" font-size: 0.8em;"></i>
-		</div>
-	{% endfor %}
+            <a href="#" class="delete-contributor-btn" data-contributor-id="{{ contributor.id }}" data-delete-url="{{ path('delete_contributor_project', { projectId: project.id,  id: contributor.id }) }}">
+                <i class="fa-solid fa-x "></i>
+            </a>
+        </div>
+{% endfor %}
 </div>
 {% endblock %}

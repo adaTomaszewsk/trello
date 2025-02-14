@@ -1,7 +1,6 @@
 $(document).ready(function(){
     const input = $('#projectTitle');
     const title = $('#projectTitle').data('project-name');
-    const editProjectNameBtn = $('#editTitleBtn');
     input.val(title);
 
     $(".title-edit-container").on('click', '#editTitleBtn', function () {
@@ -45,6 +44,17 @@ $(document).ready(function(){
                 alert('There was an error renamig the project.');
             });
 
+    });
+
+    $(".delete-contributor-btn").on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let deleteUrl = $(this).data("delete-url");
+        $("#confirmDeleteBtn").attr("href", deleteUrl);
+        $("#confirmDeleteBodyModal").text("Are you sure you want to remove this contributor?");
+
+        let confirmModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+        confirmModal.show();
     });
 
 })
